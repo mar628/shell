@@ -16,10 +16,10 @@ def main():
             sys.exit(exit_code)
         elif user_input.startswith("echo "):
             print(user_input[5:])
+        elif user_input == "type echo":
+            print("echo is a shell builtin")
         else:
             print(f"{user_input}: command not found")
 
 if __name__ == "__main__":
     main()
-
-
