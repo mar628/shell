@@ -6,7 +6,7 @@ def main():
         sys.stdout.flush()
 
         # Wait for user input
-        user_input = input()
+        user_input = input().strip()
 
         if user_input.startswith("exit"):
             try:
@@ -14,11 +14,12 @@ def main():
             except (IndexError, ValueError):
                 exit_code = 0
             sys.exit(exit_code)
+        elif user_input.startswith("echo "):
+            print(user_input[5:])
         else:
             print(f"{user_input}: command not found")
 
 if __name__ == "__main__":
     main()
-
 
 
