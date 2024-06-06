@@ -18,6 +18,8 @@ def main():
             print(user_input[5:])
         elif user_input == "type echo":
             print("echo is a shell builtin")
+        elif user_input == "type exit":
+            print("exit is a shell builtin")
         else:
             print(f"{user_input}: command not found")
 
