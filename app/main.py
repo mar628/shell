@@ -45,11 +45,11 @@ def main():
                 try:
                     os.chdir(args[0])
                 except FileNotFoundError:
-                    print(f"cd: no such file or directory: {args[0]}")
+                    print(f"{args[0]}: No such file or directory")
                 except NotADirectoryError:
-                    print(f"cd: not a directory: {args[0]}")
+                    print(f"{args[0]}: Not a directory")
                 except PermissionError:
-                    print(f"cd: permission denied: {args[0]}")
+                    print(f"{args[0]}: Permission denied")
             else:
                 print("cd: missing argument")
         elif command == "pwd":
