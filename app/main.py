@@ -1,4 +1,5 @@
 import sys
+import shutil
 
 def main():
     builtins = {"echo", "exit", "type"}
@@ -23,9 +24,15 @@ def main():
             if command in builtins:
                 print(f"{command} is a shell builtin")
             else:
-                print(f"{command} not found")
+                # Check if the command is an external command in PATH
+                path = shutil.which(command)
+                if path:
+                    print(f"{command} is {path}")
+                else:
+                    print(f"{command} not found")
         else:
             print(f"{user_input}: command not found")
 
 if __name__ == "__main__":
     main()
+
