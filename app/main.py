@@ -1,5 +1,6 @@
 import sys
 import shutil
+import subprocess
 
 def main():
     builtins = {"echo", "exit", "type"}
@@ -10,29 +11,45 @@ def main():
 
         # Wait for user input
         user_input = input().strip()
+        if not user_input:
+            continue
+        
+        parts = user_input.split()
+        command = parts[0]
+        args = parts[1:]
 
-        if user_input.startswith("exit"):
+        if command == "exit":
             try:
-                exit_code = int(user_input.split()[1])
-            except (IndexError, ValueError):
+                exit_code = int(args[0]) if args else 0
+            except ValueError:
                 exit_code = 0
             sys.exit(exit_code)
-        elif user_input.startswith("echo "):
-            print(user_input[5:])
-        elif user_input.startswith("type "):
-            command = user_input.split()[1]
-            if command in builtins:
-                print(f"{command} is a shell builtin")
-            else:
-                # Check if the command is an external command in PATH
-                path = shutil.which(command)
-                if path:
-                    print(f"{command} is {path}")
+        elif command == "echo":
+            print(" ".join(args))
+        elif command == "type":
+            if args:
+                cmd = args[0]
+                if cmd in builtins:
+                    print(f"{cmd} is a shell builtin")
                 else:
-                    print(f"{command} not found")
+                    path = shutil.which(cmd)
+                    if path:
+                        print(f"{cmd} is {path}")
+                    else:
+                        print(f"{cmd} not found")
+            else:
+                print("type: missing argument")
         else:
-            print(f"{user_input}: command not found")
+            # Try to run the command as an external program
+            path = shutil.which(command)
+            if path:
+                try:
+                    result = subprocess.run([command] + args, capture_output=True, text=True)
+                    print(result.stdout, end='')
+                except Exception as e:
+                    print(f"Error executing command: {e}")
+            else:
+                print(f"{command}: command not found")
 
 if __name__ == "__main__":
     main()
-
