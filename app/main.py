@@ -42,14 +42,17 @@ def main():
                 print("type: missing argument")
         elif command == "cd":
             if args:
+                path = args[0]
+                if path == "~":
+                    path = os.environ.get("HOME", "")
                 try:
-                    os.chdir(args[0])
+                    os.chdir(path)
                 except FileNotFoundError:
-                    print(f"{args[0]}: No such file or directory")
+                    print(f"{path}: No such file or directory")
                 except NotADirectoryError:
-                    print(f"{args[0]}: Not a directory")
+                    print(f"{path}: Not a directory")
                 except PermissionError:
-                    print(f"{args[0]}: Permission denied")
+                    print(f"{path}: Permission denied")
             else:
                 print("cd: missing argument")
         elif command == "pwd":
