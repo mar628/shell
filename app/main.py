@@ -4,7 +4,7 @@ import shutil
 import subprocess
 
 def main():
-    builtins = {"echo", "exit", "type", "cd"}
+    builtins = {"echo", "exit", "type", "cd", "pwd"}
 
     while True:
         sys.stdout.write("$ ")
@@ -52,6 +52,8 @@ def main():
                     print(f"cd: permission denied: {args[0]}")
             else:
                 print("cd: missing argument")
+        elif command == "pwd":
+            print(os.getcwd())
         else:
             # Try to run the command as an external program
             path = shutil.which(command)
